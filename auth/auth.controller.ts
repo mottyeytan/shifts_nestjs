@@ -9,7 +9,6 @@ export class AuthController {
     @Post('register')
     async register(@Body() registerDto: {
         name: string;
-        email: string;
         password: string;
         role?: UserRole;
     }) {
