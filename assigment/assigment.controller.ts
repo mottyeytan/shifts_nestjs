@@ -4,11 +4,15 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../users/users.entities';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('assigment')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class AssigmentController {
-    constructor(private readonly assigmentService: AssigmentService) {}
+    constructor(
+        private readonly assigmentService: AssigmentService,
+        private readonly jwtService: JwtService
+    ) {}
 
     // חייל יכול לראות רק את המשימות שלו
     @Get('my-assignments')

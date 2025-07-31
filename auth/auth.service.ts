@@ -13,16 +13,15 @@ export class AuthService {
         private jwtService: JwtService
     ) {}
 
-    async register(registerDto: {
+        async register(registerDto: {
         name: string;
-        email: string;
         password: string;
         role?: UserRole;
     }) {
-        const { name, email, password, role = UserRole.SOLDIER } = registerDto;
+        const { name, password, role = UserRole.SOLDIER } = registerDto;
 
-       
-        const existingUser = await this.userRepository.findOne({ where: { email } });
+        
+        const existingUser = await this.userRepository.findOne({ where: { name } });
         if (existingUser) {
             throw new UnauthorizedException('User already exists');
         }
@@ -33,7 +32,6 @@ export class AuthService {
         
         const user = this.userRepository.create({
             name,
-            email,
             password: hashedPassword,
             role
         });
@@ -52,7 +50,6 @@ export class AuthService {
             user: {
                 id: savedUser.id,
                 name: savedUser.name,
-                email: savedUser.email,
                 role: savedUser.role
             },
             token
@@ -86,7 +83,6 @@ export class AuthService {
             user: {
                 id: user.id,
                 name: user.name,
-                email: user.email,
                 role: user.role
             },
             token
